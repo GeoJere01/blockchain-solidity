@@ -8,7 +8,12 @@ pragma solidity ^0.8.30;
 
 contract Twitter {
 
-    uint16 constant MAX_LIMIT = 250;
+    uint16 MAX_LIMIT = 250;
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
 
     struct Tweet {
         address author;
@@ -18,6 +23,15 @@ contract Twitter {
     }
 
     mapping(address => Tweet[]) public tweets;
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner of the contract can perform this action.");
+        _;
+    }
+
+    function changeTweetLength(uint16 newTweetLength) public onlyOwner {
+        MAX_LIMIT = newTweetLength;
+    }
 
     function createTweet(string memory _tweet) public {
         require(bytes (_tweet).length <= MAX_LIMIT, "YOU'VE REACHED THE TWEET LIMIT!");
