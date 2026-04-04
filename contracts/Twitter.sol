@@ -2,10 +2,6 @@
 
 pragma solidity ^0.8.30;
 
-// 1️⃣ Define a Tweet Struct with author, content, timestamp, likes
-// 2️⃣ Add the struct to array
-// 3️⃣ Test Tweets
-
 contract Twitter {
 
     uint16 MAX_LIMIT = 250;
