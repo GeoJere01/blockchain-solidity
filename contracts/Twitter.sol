@@ -12,6 +12,7 @@ contract Twitter {
     }
 
     struct Tweet {
+        uint256 id;
         address author;
         string content;
         uint256 timestamp;
@@ -33,6 +34,7 @@ contract Twitter {
         require(bytes (_tweet).length <= MAX_LIMIT, "YOU'VE REACHED THE TWEET LIMIT!");
         
         Tweet memory newTweet = Tweet({
+            id: tweets[owner].length,
             author: msg.sender,
             content: _tweet,
             timestamp: block.timestamp,
@@ -50,5 +52,17 @@ contract Twitter {
         return tweets[_owner];
     }
     
+    function likeTweet(address author, uint256 id) external {  
+        require(tweets[author][id].id == id, "TWEET DOES NOT EXIST");
+
+        tweets[author][id].likes++;
+    }
+
+    function unlikeTweet(address author, uint256 id) external {
+        require(tweets[author][id].id == id, "TWEET DOES NOT EXIST");
+        require(tweets[author][id].likes > 0, "TWEET HAS NO LIKES");
+        
+        tweets[author][id].likes--;
+    }
 
 }
